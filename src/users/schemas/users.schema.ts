@@ -1,28 +1,25 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { randomUUID } from 'crypto';
 import { Document } from 'mongoose';
-
 
 export type UserDocument = User & Document;
 
-
 @Schema({ collection: 'users' })
 export class User {
-  @Prop()
+  @Prop({ _id: randomUUID() })
   userId: string;
 
   @Prop()
-  email:string;
+  email: string;
 
   @Prop()
   password: string;
 
   @Prop()
   age: number;
-  
+
   @Prop([String])
   pets: string[];
-  
 }
-
 
 export const UserSchema = SchemaFactory.createForClass(User);
