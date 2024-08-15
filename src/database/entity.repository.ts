@@ -1,7 +1,10 @@
+import { InjectModel } from '@nestjs/mongoose';
 import { Model, Document, FilterQuery, UpdateQuery } from 'mongoose';
 
 export abstract class EntityRepository<T extends Document> {
-  constructor(protected readonly entityModel: Model<T>) {}
+  constructor(
+    @InjectModel(Model.name) protected readonly entityModel: Model<T>,
+  ) {}
 
   async findOne(
     entityFilterQuery: FilterQuery<T>,
@@ -32,6 +35,9 @@ export abstract class EntityRepository<T extends Document> {
     return this.entityModel.findOneAndUpdate(
       entityFilterQuery,
       updateEnitityData,
+      {
+        new: true,
+      },
     );
   }
 
